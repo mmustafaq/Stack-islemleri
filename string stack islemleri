@@ -1,0 +1,40 @@
+
+org 100h
+mov si,0500h                        ;set offset to 500h
+mov di,offset string                ;set di to the offset of string
+mov cx,0h
+a:
+    mov al,[di]                     ;starting from [si] ,place the string  
+    mov [si],al                     ;until al is $
+    inc si
+    inc di
+    inc cx
+    cmp al,24h
+    jne a
+mov dx,cx                           ;dx is now equal to number of elements in string
+
+mov si,500h                         ;set si to the desired offset
+b:
+    mov al,[si]                     ;move [si] to the al
+    push ax                         ;then push to the stack
+    inc si                          ;increment si and decrement cx
+    dec cx                          ;until cx is equal to the 0
+    jnz b
+mov si,0540h                        ;move si 540h
+
+c:                                  ;move top of stack to ax
+    pop ax                          ;move ax to the [si]
+    mov [si],ax                     ;increment si and decrement dx
+    inc si                          ;until it is equal to the 0
+    dec dx
+    jnz c
+    
+    
+    
+    
+      
+ret
+
+string db "ELE336 midterm2 prework assignment string","$"
+
+
